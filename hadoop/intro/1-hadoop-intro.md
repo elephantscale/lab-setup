@@ -22,7 +22,7 @@ Inspect the following:
 ## Step 2: Component Specific UIs
 ### YARN
 - click on YARN service
-- click on 'Quick Links'
+- click on 'Web UI'
 - Choose 'Resource Manager UI'
 
 ### HDFS
