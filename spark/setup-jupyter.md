@@ -15,15 +15,16 @@ This would give you access to shell access to the VM
 ## Step 4: Install Spark
 ```bash
 $   cd
+$   wget https://archive.apache.org/dist/spark/spark-2.3.0/spark-2.3.0-bin-hadoop2.7.tgz
 $   rm -rf  spark   # cleanup existing spark installation (if any)
-$   tar xvf   files/spark-2.3.0-bin-hadoop2.7.tgz
+$   tar xvf   spark-2.3.0-bin-hadoop2.7.tgz
 $   mv  spark-2.3.0-bin-hadoop2.7    spark
 ```
 
 ## Step 5: Get the labs
 
 ```bash
-$   git clone  git@github.com:elephantscale/spakr-labs.git
+$   git clone  git@github.com:elephantscale/spark-labs.git
 
 ```
 
