@@ -32,7 +32,7 @@ $   git clone  git@github.com:elephantscale/spark-labs.git
 ## Step 6: Get the data
 
 ```bash
-$  cd ~/data;  git pull;   cd
+$  cd /data;  git pull;   cd
 ```
 
 ## Step 7: Open `Readme.ipynb` file
