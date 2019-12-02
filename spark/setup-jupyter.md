@@ -19,6 +19,7 @@ $   wget https://archive.apache.org/dist/spark/spark-2.3.0/spark-2.3.0-bin-hadoo
 $   rm -rf  spark   # cleanup existing spark installation (if any)
 $   tar xvf   spark-2.3.0-bin-hadoop2.7.tgz
 $   mv  spark-2.3.0-bin-hadoop2.7    spark
+$   export SPARK_HOME=~/spark
 ```
 
 ## Step 5: Get the labs
