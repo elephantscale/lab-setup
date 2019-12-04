@@ -17,7 +17,7 @@ None
 Try this in terminal
 ```bash
     $  sudo apt remove default-java
-    $  sudo apt install openjdk8-jdk maven
+    $  sudo apt install openjdk-8-jdk maven
     $  sudo update-alternatives --config java  # select openjdk-8
     $  java -version  # confirm your java version 
 ```
