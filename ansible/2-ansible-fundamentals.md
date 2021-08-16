@@ -1,4 +1,4 @@
-#Lab 2. Understanding the Fundamentals of Ansible
+# Lab 2. Understanding the Fundamentals of Ansible
 
 In this lab, we will cover the following topics:
 
