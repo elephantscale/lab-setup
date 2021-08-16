@@ -245,20 +245,158 @@ ansible all -m setup
 ```
 
 
+Now that you have learned more about verifying your Ansible installation
+and about how to run ad hoc commands, let\'s proceed to look in a bit
+more detail at the requirements of the nodes that are to be managed by
+Ansible.
 
-## Questions
-1. On which operating systems can you install Ansible? (Multiple correct answers) 
-   * A) Ubuntu
-   * B) Fedora
-   * C) Windows 2019 server 
-   * D) HP-UX
-   * E) Mainframe
-2. Which protocol does Ansible use to connect the remote machine for running tasks? 
-   * A) HTTP
-   * B) HTTPS 
-   * C) SSH 
-   * D) TCP * 
-   * E) UDP
-3. To execute a specific module in the Ansible ad hoc command line, you need to use the `[-m]` option. 
-   * A) True
-   * B) False
+
+
+Running from source versus pre-built RPMs
+=========================================
+
+
+Let\'s get started by checking out the very latest version of the source code from GitHub:
+
+1.  You must clone the sources from the [git] repository first,
+    and then change to the directory containing the checked-out code:
+
+```
+$ git clone https://github.com/ansible/ansible.git --recursive
+$ cd ./ansible
+```
+
+
+
+2.  Before you can proceed with any development work, or indeed to run
+    Ansible from the source code, you must set up your shell
+    environment. Several scripts are provided for just that purpose,
+    each being suitable for different shell environments. For example,
+    if you are running the venerable Bash shell, you would set up your
+    environment with the following command:
+
+```
+$ source ./hacking/env-setup
+```
+
+
+
+
+3.  Once you have set up your environment, you must install the
+    [pip] Python package manager, and then use this to install all
+    of the required Python packages (note: you can skip the first
+    command if you already have [pip] on your system):
+
+```
+$ sudo pip3 install -r ./requirements.txt
+```
+
+
+
+Note that, when you have run the [env-setup] script, you\'ll be
+running from your source code checkout, and the default inventory file
+will be [/etc/ansible/hosts]. You can optionally specify an
+inventory file other than [/etc/ansible/hosts].
+
+4.  When you run the [env-setup] script, Ansible runs from the
+    source code checkout, and the default inventory file is
+    [/etc/ansible/hosts]; however, you can optionally specify an
+    inventory file wherever you want on your machine. The following command provides an
+    example of how you might do this, but obviously, your filename and
+    contents are almost certainly going to vary:
+
+```
+$ echo "ap1.example.com" > ~/my_ansible_inventory
+$ export ANSIBLE_INVENTORY=~/my_ansible_inventory
+```
+
+
+Once you have completed these steps, you can run Ansible exactly as we
+have discussed throughout this lab, with the exception that you must
+specify the absolute path to it. For example, if you set up your
+inventory as in the preceding code and clone the Ansible source into
+your home directory, you could run the ad hoc [ping] command that
+we are now familiar with, as follows:
+
+```
+$ ~/ansible/bin/ansible all -m ping
+
+ap1.example.com | SUCCESS => {
+    "changed": false, 
+    "ping": "pong"
+}
+```
+
+
+
+Of course, the Ansible source tree is constantly changing and it is
+unlikely you would just want to stick with the copy you cloned. When the
+time comes to update it, you don\'t need to clone a new copy; you can
+simply update your existing working copy using the following commands
+(again, assuming that you initially cloned the source tree into your
+home directory):
+
+```
+$ git pull --rebase
+$ git submodule update --init --recursive
+```
+
+That concludes our introduction to setting up both your Ansible control
+machine and managed nodes. It is hoped that the knowledge you have
+gained in this lab will help you to get your own Ansible
+installation up and running and set the groundwork for the rest of this
+course.
+
+
+Summary
+=======
+
+Ansible is a powerful and versatile yet simple automation tool, of which
+the key benefits are its agentless architecture and its simple
+installation process. Ansible was designed to get you from zero to
+automation rapidly and with minimal effort, and we have demonstrated the
+simplicity with which you can get up and running with Ansible in this
+lab.
+
+In the next lab, we will learn Ansible language fundamentals to
+enable you to write your first playbooks and to help you to create
+templated configurations and start to build up complex automation
+workflows.
+
+
+Questions
+=========
+
+1.  On which operating systems can you install Ansible? (Multiple
+    correct answers)
+
+A\) Ubuntu
+
+B\) Fedora
+
+C\) Windows 2019 server
+
+D\) HP-UX
+
+E\) Mainframe
+
+2.  Which protocol does Ansible use to connect the remote machine for
+    running tasks?
+
+A\) HTTP
+
+B\) HTTPS
+
+C\) SSH
+
+D\) TCP
+
+E\) UDP
+
+3.  To execute a specific module in the Ansible ad hoc command line, you
+    need to use the [-m] option.
+
+A\) True
+
+B\) False
+
