@@ -1,7 +1,5 @@
 #Lab 2. Understanding the Fundamentals of Ansible
 
-
-
 In this lab, we will cover the following topics:
 
 -   Getting familiar with the Ansible framework
@@ -13,50 +11,105 @@ In this lab, we will cover the following topics:
 
 #### Lab Environment
 
-Note that `root` user password is **fenago**
 
-All lab file are present at below path. Run following command in the terminal first before running commands in the lab:
-
-`cd ~/Desktop/ansible-course/Lab_2` 
+You should have already been given a ubuntu lab machine that is going to be your primary workspace.  You will also be given an additonal
+machine that you will choose to automate.
 
 
-Getting familiar with the Ansible framework
-===========================================
+
+## Adding files to `/etc/hosts`
+
+The lab is refers to hosts that need to be referenced in the apache 
+
+You will need to add the following hosts, which should link to the second machine's ip address you were given
+  * backend1.example.com
+  * frontend1.example.com
+  * frontend1-na.example.com
+  * frontend2-na.example.com
+  * frontend1-emea.example.com
+  * frontend2-emea.example.com
+  * appserver1-na.example.com
+  * appserver2-na.example.com
+  * frontedn1-emea.example.com
+  * frontend2-emea.example.com
 
 
-In order to run Ansible\'s ad hoc commands via an SSH connection from
-your Ansible control machine to multiple remote hosts, you need to
-ensure you have the latest Ansible version installed on the control
-host. Use the following command to confirm the latest Ansible version:
+Edit your `/etc/hosts` as follows:
+```bash
+sudo vim /etc/hosts
+```
+
+With these contents:
+
 
 ```
-$ ansible --version
-ansible 2.9.6
- config file = /etc/ansible/ansible.cfg
- configured module search path = [u'/home/jamesf_local/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
- ansible python module location = /usr/lib/python2.7/dist-packages/ansible
- executable location = /usr/bin/ansible
- python version = 2.7.17 (default, Nov 7 2019, 10:07:09) [GCC 9.2.1 20191008]
+127.0.0.1 web1.example.com
+127.0.0.1 web2.example.com
+127.0.0.1 ap1.example.com
+127.0.0.1 ap2.example.com
+127.0.0.1 frt01.example.com
+127.0.0.1 frt02.example.com
+
+<YOUR_IP_ADDRESS> backend1.example.com
+<YOUR_IP_ADDRESS> frontend1.example.com
+
+<YOUR_IP_ADDRESS> frontend1-na.example.com
+<YOUR_IP_ADDRESS> frontend2-na.example.com
+
+<YOUR_IP_ADDRESS> frontend1-emea.example.com
+<YOUR_IP_ADDRESS> frontend2-emea.example.com
+
+<YOUR_IP_ADDRESS> appserver1-na.example.com
+<YOUR_IP_ADDRESS> appserver2-na.example.com
+
+<YOUR_IP_ADDRESS> appserver1-emea.example.com
+<YOUR_IP_ADDRESS> appserver2-emea.example.com
 ```
 
-You also need to ensure SSH connectivity with each remote host that you
-will define in the inventory. You can use a simple, manual SSH
-connection on each of your remote hosts to test the connectivity, as
-Ansible will make use of SSH during all remote Linux-based automation
-tasks:
 
+## Confirm Passwordless connectivity to each machine
+
+You should confirm that you have passwordless connectivity for each of your newa machines
+
+
+
+
+Now, confirm this works by attempting to perform an ssh to each of the four machiens
+
+```bash
+ssh frontend1.example.com   # You may have to say "yes" when asked
+exit
+ssh frontend2.example.com   # You may have to say "yes" when asked
+exit
+ssh frontend1-na.example.com   # You may have to say "yes" when asked
+exit
+ssh frontend2-na.example.com   # You may have to say "yes" when asked
+exit
+ssh frontend1-emea.example.com   # You may have to say "yes" when asked
+exit
+ssh frontend2-emea.example.com   # You may have to say "yes" when asked
+exit
+ssh appserver1-na.example.com   # You may have to say "yes" when asked
+exit
+ssh appserver2-emea.example.com   # You may have to say "yes" when asked
+exit
+ssh appserver1-emea.example.com   # You may have to say "yes" when asked
+exit
+ssh appserver2-emea.example.com   # You may have to say "yes" when asked
+exit
 ```
-$ ssh root@frontend.example.com
+
+Logging in each one may look like this
+
+```console
+$ ssh ubuntu@frontend1.example.com
 The authenticity of host 'frontend.example.com (192.168.1.52)' can't be established.
 ED25519 key fingerprint is SHA256:hU+saFERGFDERW453tasdFPAkpVws.
 Are you sure you want to continue connecting (yes/no)? yes
-password:<Input_Your_Password>
 ```
 
-In this section, we will walk you through how Ansible works, starting
-with some simple connectivity testing. You can learn how the Ansible
-framework accesses multiple host machines to execute your tasks by
-following this simple procedure:
+
+## Edit your Inventory file
 
 1.  Create or edit your default inventory file,
     [/etc/ansible/hosts] (you can also specify the path with your
@@ -68,7 +121,7 @@ following this simple procedure:
     own devices. Add one hostname (or IP address) per line:
 
 ```
-frontend.example.com
+frontend1.example.com
 backend1.example.com
 backend2.example.com
 ```
@@ -82,7 +135,7 @@ able to successfully ping each host. See the following output as an
 example:
 
 ```
-$ ping frontend.example.com
+$ ping frontend1.example.com
 
 PING frontend.example.com (127.0.0.1) 56(84) bytes of data.
 64 bytes from localhost (127.0.0.1): icmp_seq=1 ttl=64 time=0.022 ms
@@ -96,7 +149,9 @@ PING frontend.example.com (127.0.0.1) 56(84) bytes of data.
 <span style="color:red;"> Below steps are optional as key has been created already and copied using "ssh-copy-id" utility. Make sure to complete all instructions if new key is created as old key will be overwritten.</span>
 
 
-2.  To make the automation process seamless, we\'ll generate an SSH
+2.  You should already have SSH configuration keys available3 if using the lab machines. If you need ot repeat this step, here this ias as  arefernece.
+
+To make the automation process seamless, we\'ll generate an SSH
     authentication key pair so that we don\'t have to type in a password
     every time we want to run a playbook. If you do not already have an
     SSH key pair, you can generate one using the following command:
@@ -136,7 +191,9 @@ The key's randomart image is:
 +----[SHA256]-----+
 ```
 
-3.  Although there are conditions that your SSH keys are automatically
+3.  Add the key using ssh agent (This should already be done on the lab machines
+
+    Although there are conditions that your SSH keys are automatically
     picked up with, it is recommended that you make use of
     [ssh-agent] as this allows you to load multiple keys to
     authenticate against a variety of targets. This will be very useful
@@ -169,6 +226,8 @@ Now try logging into the machine, with: "ssh 'frontend.example.com'"
 and check to make sure that only the key(s) you wanted were added.
 ```
 
+### Perform Ansible Ping ttest
+
 With this complete, you should now be able to perform an Ansible
 ping command on the hosts you put in your inventory file. You will find
 that you are not prompted for a password at any point as the SSH
@@ -178,7 +237,7 @@ following:
 
 ```
 $ ansible all -i hosts -m ping
-frontend.example.com | SUCCESS => {
+frontend1.example.com | SUCCESS => {
     "changed": false, 
     "ping": "pong"
 }
@@ -224,9 +283,9 @@ the inventory with the hostnames or IP addresses of the hosts that you
 can reach from the control host itself:
 
 ```
-remote1.example.com
-remote2.example.com
-remote3.example.com
+frontend1.example.com
+frontend1-na.example.com
+frontend1-emea..example.com
 ```
 
 To really understand how Ansible---as well as its various
@@ -301,7 +360,7 @@ look something as follows:
 
 
 ```
-$ cd ~/Desktop/ansible-course/Lab_2
+$ cd ~/ansible-course/Lab_2
 $ ansible-playbook update-apache-version.yml
 
 
@@ -646,7 +705,7 @@ playbooks:
 ```
 ---
 - hosts: frontends_na_zone
-  remote_user: root
+  remote_user: ubuntu 
   tasks:
     - name: simple connection test
       ping:
@@ -690,7 +749,7 @@ frontend2-na.example.com : ok=2 changed=0 unreachable=0 failed=0 skipped=0 rescu
 ```
 ---
 - hosts: appservers_emea_zone
-  remote_user: root
+  remote_user: ubuntu 
   tasks:
     - name: simple connection test
       ping:
@@ -1070,7 +1129,7 @@ in the playbook, we could remove it altogether and instead have run it
 using the following command-line string:
 
 ```
-$ ansible-playbook -i production-inventory site.yml --user root
+$ ansible-playbook -i production-inventory site.yml --user ubuntu
 ```
 
 
@@ -1205,7 +1264,7 @@ frontend2-emea.example.com | CHANGED | rc=0 >>
 
 
 ```
-$ ansible -i production-inventory frontends_emea_zone -m copy -a "src=/etc/hosts dest=/root/Desktop/hosts"
+$ ansible -i production-inventory frontends_emea_zone -m copy -a "src=/etc/hosts dest=/home/ubuntu/hosts"
 
 frontend1-emea.example.com | CHANGED => {
     "ansible_facts": {
@@ -1213,7 +1272,7 @@ frontend1-emea.example.com | CHANGED => {
     },
     "changed": true,
     "checksum": "e0637e631f4ab0aaebef1a6b8822a36f031f332e",
-    "dest": "/root/Desktop/hosts",
+    "dest": "/home/ubuntu/hosts",
     "gid": 0,
     "group": "root",
     "md5sum": "a7dc0d7b8902e9c8c096c93eb431d19e",
@@ -1230,7 +1289,7 @@ frontend2-emea.example.com | CHANGED => {
     },
     "changed": true,
     "checksum": "e0637e631f4ab0aaebef1a6b8822a36f031f332e",
-    "dest": "/root/Desktop/hosts",
+    "dest": "/home/ubuntu/hosts",
     "gid": 0,
     "group": "root",
     "md5sum": "a7dc0d7b8902e9c8c096c93eb431d19e",
@@ -1272,7 +1331,7 @@ frontend1-emea.example.com | CHANGED => {
     "ansible_job_id": "537978889103.8857",
     "changed": true,
     "finished": 0,
-    "results_file": "/root/.ansible_async/537978889103.8857",
+    "results_file": "/home/ubuntu/.ansible_async/537978889103.8857",
     "started": 1
 }
 frontend2-emea.example.com | CHANGED => {
