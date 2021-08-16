@@ -214,7 +214,7 @@ ansible frontends -m copy -a "src=/etc/hosts dest=/home/ubuntu/hosts"
 Create a new directory on all hosts in the [frontends] inventory group, and create it with specific ownership and permissions:
 
 ```bash
-ansible frontends -m file -a "dest=/home/ubuntu/new mode=777 owner=user1 group=user1 state=directory"
+ansible frontends -m file -a "dest=/home/ubuntu/new mode=777 owner=ubuntu group=ubuntu state=directory"
 ```
 
 ## Delete a Directory
