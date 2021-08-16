@@ -111,14 +111,14 @@ Are you sure you want to continue connecting (yes/no)? yes
 
 ## Edit your Inventory file
 
-1.  Create or edit your default inventory file,
-    [/etc/ansible/hosts] (you can also specify the path with your
-    own inventory file by passing options such as
-    [---inventory=/path/inventory\_file]). Add some example hosts
-    to your inventory---these must be the IP addresses or hostnames of
-    real machines for Ansible to test against. The following are
-    examples from my network, but you need to substitute these for your
-    own devices. Add one hostname (or IP address) per line:
+Create or edit your default inventory file,
+[/etc/ansible/hosts] (you can also specify the path with your
+own inventory file by passing options such as
+[---inventory=/path/inventory\_file]). Add some example hosts
+to your inventory---these must be the IP addresses or hostnames of
+real machines for Ansible to test against. The following are
+examples from my network, but you need to substitute these for your
+own devices. Add one hostname (or IP address) per line:
 
 ```
 frontend1.example.com
@@ -149,12 +149,14 @@ PING frontend.example.com (127.0.0.1) 56(84) bytes of data.
 <span style="color:red;"> Below steps are optional as key has been created already and copied using "ssh-copy-id" utility. Make sure to complete all instructions if new key is created as old key will be overwritten.</span>
 
 
-2.  You should already have SSH configuration keys available3 if using the lab machines. If you need ot repeat this step, here this ias as  arefernece.
+
+## (ONLY IF NEEDED) Create SSH Keys and Distribute
+You should already have SSH configuration keys available3 if using the lab machines. If you need ot repeat this step, here this as a reference 
 
 To make the automation process seamless, we\'ll generate an SSH
-    authentication key pair so that we don\'t have to type in a password
-    every time we want to run a playbook. If you do not already have an
-    SSH key pair, you can generate one using the following command:
+authentication key pair so that we don\'t have to type in a password
+every time we want to run a playbook. If you do not already have an
+SSH key pair, you can generate one using the following command:
 
 ```
 $ ssh-keygen 
@@ -191,16 +193,16 @@ The key's randomart image is:
 +----[SHA256]-----+
 ```
 
-3.  Add the key using ssh agent (This should already be done on the lab machines
+*Add the key using ssh agent (This should already be done on the lab machines)*
 
-    Although there are conditions that your SSH keys are automatically
-    picked up with, it is recommended that you make use of
-    [ssh-agent] as this allows you to load multiple keys to
-    authenticate against a variety of targets. This will be very useful
-    to you in the future, even if it isn\'t right now.
-    Start [ssh-agent] and add your new authentication key, as
-    follows (note that you will need to do this for every shell that you
-    open):
+Although there are conditions that your SSH keys are automatically
+picked up with, it is recommended that you make use of
+[ssh-agent] as this allows you to load multiple keys to
+authenticate against a variety of targets. This will be very useful
+to you in the future, even if it isn\'t right now.
+Start [ssh-agent] and add your new authentication key, as
+follows (note that you will need to do this for every shell that you
+open):
 
 ```
 $ ssh-agent bash
@@ -226,7 +228,7 @@ Now try logging into the machine, with: "ssh 'frontend.example.com'"
 and check to make sure that only the key(s) you wanted were added.
 ```
 
-### Perform Ansible Ping ttest
+### Perform Ansible Ping Test
 
 With this complete, you should now be able to perform an Ansible
 ping command on the hosts you put in your inventory file. You will find
@@ -251,8 +253,6 @@ backend2.example.com | SUCCESS => {
 }
 ```
 
-
-
 This example output is generated with Ansible\'s default level of
 verbosity. If you run into problems during this process, you can
 increase Ansible\'s level of verbosity by passing one or more [-v]
@@ -271,8 +271,7 @@ backend2.example.com | FAILED => SSH encountered an unknown error during the con
 `ansible all -m ping -vvvv`
 
 
-Breaking down the Ansible components
-------------------------------------
+## Breaking down the Ansible components
 
 
 In order to understand the various components, we first need an
@@ -300,6 +299,13 @@ your plays and tasks as without this, it would be quite hard for someone
 else to interpret what the playbook does, or even for you to if you come
 back to it after a period of time. Let\'s get started with building our
 first example playbook:
+
+
+Create a file called `my_first_playbook.yaml`:
+
+```bash
+vim $HOME/my_first_playbook.yaml
+```
 
 1.  Specify the play name and inventory hosts to run your tasks against
     at the very top of your playbook. Also, note the use
@@ -350,6 +356,13 @@ first example playbook:
    service:
      name: apache2
      state: restarted
+```
+
+
+Now run the playbook:
+
+```bash
+ansible-playbook $HOME/my-first-playbook.yaml
 ```
 
 Congratulations, you now have your very first Ansible playbook! If you
@@ -700,7 +713,7 @@ playbooks:
 
 1.  [Create a playbook to run a connection test on a specific host
     group, such as [frontends\_na\_zone]. Put the following
-    contents into the playbook:]
+    contents into the playbook `frontends-nl.yml` :]
 
 ```
 ---
