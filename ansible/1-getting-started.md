@@ -99,7 +99,8 @@ Add the following lines to the file `/etc/hosts`
 127.0.0.1 web2.example.com
 127.0.0.1 ap1.example.com
 127.0.0.1 ap2.example.com
-
+127.0.0.1 frt01.example.com
+127.0.0.1 frt02.example.com
 ```
 
 Now, confirm this works by attempting to perform an ssh to each of the four machiens
