@@ -207,7 +207,7 @@ command and learn how it responds. Here are some more ad hoc examples for you to
 # Copy a file
 Copy a file from the Ansible control host to all hosts in the [frontends] group with the following command:
 ```bash
-ansible frontends -m copy -a "src=/etc/hosts dest=/root/Desktop/hosts"
+ansible frontends -m copy -a "src=/etc/hosts dest=/home/ubuntu/hosts"
 ```
 
 ## Create A new directory
