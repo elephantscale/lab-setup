@@ -238,7 +238,7 @@ your SSH key pair. So, you should see an output similar to the
 following:
 
 ```
-$ ansible all -i hosts -m ping
+$ ansible all  -m ping
 frontend1.example.com | SUCCESS => {
     "changed": false, 
     "ping": "pong"
