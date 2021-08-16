@@ -478,7 +478,7 @@ follows:
     apt:
       name:
         - apache2
-        - mod_ssl
+        - curl
       state: latest
 ```
 
