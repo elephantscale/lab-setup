@@ -186,19 +186,19 @@ frt02.example.com
 ### Ping Hosts
 Ping hosts: You can perform an Ansible "ping" on your inventory hosts using the following command:
 ```bash
-ansible frontends -i hosts -m ping
+ansible frontends  -m ping
 ```
 
 ### Display Gathered Facts
 
 ```bash
-ansible frontends -i hosts -m setup | less
+ansible frontends  -m setup | less
 ```
 
 ### Filtered Gathered Facts
 
 ```bash
-ansible frontends -i hosts -m setup -a "filter=ansible_distribution*"
+ansible frontends  -m setup -a "filter=ansible_distribution*"
 ```
 
 Ad hoc commands are incredibly powerful, both for verifying your Ansible installation and for learning Ansible and how to work with modules as you don't need to write a whole playbook---you can just run a module with an ad hoc
