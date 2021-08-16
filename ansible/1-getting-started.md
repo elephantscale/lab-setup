@@ -214,13 +214,15 @@ ansible frontends -m copy -a "src=/etc/hosts dest=/home/ubuntu/hosts"
 Create a new directory on all hosts in the [frontends] inventory group, and create it with specific ownership and permissions:
 
 ```bash
-ansible frontends -m file -a "dest=/path/user1/new mode=777 owner=user1 group=user1 state=directory"
+ansible frontends -m file -a "dest=/home/ubuntu/new mode=777 owner=user1 group=user1 state=directory"
 ```
 
 ## Delete a Directory
 Delete a specific directory from all hosts in the [frontends] group with the following command:
 
-$ ansible frontends -m file -a "dest=/path/user1/new state=absent"
+```bash
+ansible frontends -m file -a "dest=/home/ubuntu/new state=absent"
+```
 
 ### Install apache2 package
 Install the [apache2] package with [apt] if it is not already present---if it is present, do not update it. Again, this applies to all hosts in the [frontends] inventory group:
