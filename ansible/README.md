@@ -13,6 +13,7 @@ You should see a running instance of Jupyter Lab
 This would give you access to shell access to the VM
 
 
-## Step 4: Proceed to Lab 1
-[Lab 1](./1-getting-started.md)
+# Labs
 
+ * [Lab 1](./1-getting-started.md)
+ * [Lab 2](2-ansible-fundamentals.md)
